@@ -83,7 +83,20 @@ select * from produtos_compras;
 select * from receitas_medicas;
 
 -- consultas complexas
-
+select * from compras;
+select com.id as 'ID Compra', cli.nome as 'Cliente', com.data_compra as 'Data Compra', prod_com.quantidade
+	from compras as com, clientes as cli, produtos_compras as prod_com
+	where com.id_clientes = cli.id
+    and com.id = prod_com.id_compra;
+    
+select com.id as 'venda',
+cli.nome as 'cliente',
+sum(prod.preco_venda * proc.quantidade) as 'total',
+com.data_compra as 'Data da compra'
+from produtos_compras as proc, produtos as prod, compras as com, clientes as cli
+where com.id = proc.id_compra and prod.id = proc.id_produtos and cli.id = com.id_clientes
+group by com.id;
+ 
 -- atualizar dados
 select * from tipos_produtos;
 update tipos_produtos set nome = 'higiene' where id = 2;
